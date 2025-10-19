@@ -5,5 +5,5 @@
 
 ## Архитектура приложения
 
-![Архитектура]('/pictures/architecture.jpg')
+![Архитектура](/pictures/architecture.jpg)
 
