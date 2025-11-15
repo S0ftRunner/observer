@@ -87,15 +87,16 @@ def parse_all_logs_as_str(directory="."):
 
 # Define an MCP tool using the @mcp.tool() decorator
 @mcp.tool()
+@mcp.tool()
 def execzeek(pcap_path: str) -> str:
     """
-    Run Zeek on a specified PCAP file after cleaning existing .log files.
-
+    Run Zeek on a specified PCAP file using Docker container.
+    
     Args:
         pcap_path (str): Path to the input PCAP file
     Returns:
         str: Comma-separated names of generated log files if successful,
-             or "1" in case of an error
+             or error message
     """
     try:
         # Remove all existing .log files in the current directory
@@ -106,8 +107,14 @@ def execzeek(pcap_path: str) -> str:
             except Exception as e:
                 print(f"[WARN] Could not remove {old}: {e}")
 
-        # Execute the Zeek command on the PCAP file
-        res = subprocess.run(["zeek", "-C", "-r", pcap_path], check=False)
+        # Execute Zeek via Docker container
+        cmd = [
+            "docker", "exec", "zeek-mcp-container",
+            "zeek", "-C", "-r", f"/workspace/{os.path.basename(pcap_path)}"
+        ]
+        
+        res = subprocess.run(cmd, check=False, capture_output=True, text=True)
+        
         if res.returncode == 0:
             # On success, collect the new .log files
             new_logs = glob.glob("*.log")
@@ -117,16 +124,15 @@ def execzeek(pcap_path: str) -> str:
                 return f"Generated the following files:\n{logs_str}"
             else:
                 print("[WARN] No .log files found after running Zeek.")
-                return ""
+                return "No log files generated"
         else:
-            # If Zeek exits with an error code, return "1"
-            print(f"[ERROR] Zeek returned exit code {res.returncode}")
-            return "1"
+            error_msg = f"Zeek error: {res.stderr}" if res.stderr else f"Exit code {res.returncode}"
+            print(f"[ERROR] {error_msg}")
+            return f"Error: {error_msg}"
+            
     except Exception as e:
-        # Handle unexpected exceptions during Zeek execution
         print(f"[ERROR] Error running Zeek: {e}")
-        return "1"
-
+        return f"Execution error: {e}"
 
 @mcp.tool()
 def parselogs(logfile: str):
