@@ -7,6 +7,7 @@ import os        # Module for interacting with the operating system (files, dire
 import glob      # Module for file pattern matching (glob)
 import pandas as pd  # (Duplicate) Pandas for DataFrame operations
 
+
 # Configure module-level logger
 logger = logging.getLogger(__name__)
 # Create the main FastMCP instance to expose tools as endpoints
@@ -86,7 +87,6 @@ def parse_all_logs_as_str(directory="."):
 
 
 # Define an MCP tool using the @mcp.tool() decorator
-@mcp.tool()
 @mcp.tool()
 def execzeek(pcap_path: str) -> str:
     """
