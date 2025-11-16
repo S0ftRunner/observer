@@ -3,7 +3,7 @@ import { Outlet } from "react-router"
 import { Background } from "./components"
 import { Header } from "./blocks"
 
-export const App = () => {
+function App () {
   const MainWrapper = styled(Box)`
     display: flex;
     min-height: 100vh;
@@ -21,3 +21,5 @@ export const App = () => {
     </MainWrapper>
   )
 }
+
+export default App;

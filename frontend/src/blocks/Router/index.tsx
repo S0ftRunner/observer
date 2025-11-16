@@ -1,5 +1,5 @@
 
-import { App } from "@/App";
+import App from "@/App";
 import { createBrowserRouter } from "react-router";
 
 export const router = createBrowserRouter([
@@ -16,7 +16,7 @@ export const router = createBrowserRouter([
     element: <div>events</div>,
     children: [
       {
-        path: "/:id",
+        path: ":id",
         element: <div>event id</div>,
       },
     ],
@@ -26,7 +26,7 @@ export const router = createBrowserRouter([
     element: <div>logs</div>,
     children: [
       {
-        path: "/:id",
+        path: ":id",
         element: <div>log id</div>,
       },
     ],
@@ -35,7 +35,7 @@ export const router = createBrowserRouter([
     path: '/reports',
     element: <div>report</div>,
     children: [{
-      path: "/:id",
+      path: ":id",
       element: <div>report id</div>
     }]
   },
