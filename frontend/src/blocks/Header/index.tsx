@@ -7,7 +7,7 @@ export const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
   return (
-    <AppBar sx={{}}>
+    <AppBar position="static">
       <Box display='flex' width={"100%"}>
         {ROUTES.map(route => (
           <MenuItem 

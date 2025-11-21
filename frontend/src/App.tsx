@@ -5,8 +5,8 @@ import { Header } from "./blocks"
 
 function App () {
   const MainWrapper = styled(Box)`
-    position: relative;
     width: 100vw;
+    height: 100vh;
 
     overflow-x: hidden;
     overflow-y: scroll;
