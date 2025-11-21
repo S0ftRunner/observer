@@ -5,9 +5,7 @@ import { Header } from "./blocks"
 
 function App () {
   const MainWrapper = styled(Box)`
-    display: flex;
-    min-height: 100vh;
-    height: 100vh;
+    position: relative;
     width: 100vw;
 
     overflow-x: hidden;
@@ -15,8 +13,8 @@ function App () {
   `
   return (
     <MainWrapper>
-      <Background />
       <Header />
+      <Background />
       <Outlet />
     </MainWrapper>
   )

@@ -1,19 +1,22 @@
-import { Nullable } from "@/types"
-import { AppBar, Link, Menu, MenuItem } from "@mui/material"
-import { useState } from "react"
+import { AppBar, Box, MenuItem, Typography } from "@mui/material"
 import { ROUTES } from "./constants";
+import { useLocation, useNavigate } from "react-router";
+import { ThemeButton } from "./Components/ThemeButton";
 
 export const Header = () => {
-  const [anchorElNav, setAnchorElNav] = useState<Nullable<boolean>>(true);
+  const navigate = useNavigate();
+  const location = useLocation();
+
   return (
-    <AppBar position='static'>
-      <Menu id="menu-appbar" open={Boolean(anchorElNav)} >
+    <AppBar sx={{padding: '0 16px'}}>
+      <Box display='flex' width={"100%"}>
         {ROUTES.map(route => (
-          <MenuItem key={route.url}>
-            <Link href={route.url}>{route.text}</Link>
+          <MenuItem sx={{width: '100%'}} key={route.url} onClick={() => navigate(route.url)} selected={route.url === location.pathname}>
+            <Typography>{route.text}</Typography>
           </MenuItem>
         ))}
-      </Menu>
+        <ThemeButton />
+      </Box>
     </AppBar>
   )
 }
