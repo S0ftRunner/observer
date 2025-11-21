@@ -14,7 +14,7 @@ export const ThemeButton = () => {
   };
 
   return (
-    <IconButton onClick={toggleTheme}>
+    <IconButton sx={{width: 40}} onClick={toggleTheme}>
       <AnimatePresence initial={false}>
         <>
           <motion.div
