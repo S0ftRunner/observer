@@ -14,7 +14,7 @@ export const ThemeButton = () => {
   };
 
   return (
-    <IconButton disableRipple onClick={toggleTheme} sx={{ padding: '0 12px', justifySelf: 'end' }}>
+    <IconButton onClick={toggleTheme}>
       <AnimatePresence initial={false}>
         <>
           <motion.div
