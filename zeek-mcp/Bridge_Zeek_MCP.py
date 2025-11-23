@@ -7,7 +7,6 @@ import os        # Module for interacting with the operating system (files, dire
 import glob      # Module for file pattern matching (glob)
 import pandas as pd  # (Duplicate) Pandas for DataFrame operations
 
-
 # Configure module-level logger
 logger = logging.getLogger(__name__)
 # Create the main FastMCP instance to expose tools as endpoints
@@ -147,6 +146,39 @@ def parselogs(logfile: str):
     return parse_zeek_log(logfile)
 
 
+@mcp.tool()
+def analyze_with_ai(pcap_path: str):
+    """
+    Запускает Zeek на PCAP файле и анализирует результаты через ИИ.
+    
+    Args:
+        pcap_path (str): Путь к PCAP файлу для анализа
+    Returns:
+        str: Анализ угроз безопасности от GigaChat
+    """
+    try:
+        # 1. Запускаем Zeek на PCAP
+        zeek_result = execzeek(pcap_path)
+        
+        # 2. Парсим все созданные логи
+        logs_text = parse_all_logs_as_str()
+        
+        # 3. Анализируем через GigaChat
+        ai_analysis = gigachat.analyze_security_logs(logs_text)
+        
+        return f"""
+        === Zeek Analysis Complete ===
+
+        {zeek_result}
+
+        === AI Security Analysis ===
+
+        {ai_analysis}
+        """
+        
+    except Exception as e:
+        return f"Ошибка при анализе с ИИ: {e}"
+
 def main():
     # Set up command-line argument parser
     parser = argparse.ArgumentParser(description="MCP server for mcp")
@@ -182,6 +214,8 @@ def main():
         # Run MCP in stdio transport mode
         mcp.run()
 
+
 # Entry point of the script when executed directly
 if __name__ == "__main__":
     main()
+
