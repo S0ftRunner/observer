@@ -6,7 +6,7 @@ from mcp.server.fastmcp import FastMCP  # Import the FastMCP class from the MCP 
 import os        # Module for interacting with the operating system (files, directories)
 import glob      # Module for file pattern matching (glob)
 import pandas as pd  # (Duplicate) Pandas for DataFrame operations
-
+from giga import GigaChatService # имппортируерм GigaChat
 # Configure module-level logger
 logger = logging.getLogger(__name__)
 # Create the main FastMCP instance to expose tools as endpoints
@@ -164,7 +164,7 @@ def analyze_with_ai(pcap_path: str):
         logs_text = parse_all_logs_as_str()
         
         # 3. Анализируем через GigaChat
-        ai_analysis = gigachat.analyze_security_logs(logs_text)
+        ai_analysis = GigaChatService.analyze_security_logs(logs_text)
         
         return f"""
         === Zeek Analysis Complete ===
