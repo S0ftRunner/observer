@@ -45,12 +45,21 @@ class MCPClient:
         """Вызывает analyze_with_ai инструмент из MCP сервера"""
         if not self.session:
             await self.start_session()
+    
+        try:
+            logger.info(f"Calling MCP tool 'analyze_with_ai' with path: {pcap_path}")
         
-        result = await self.session.call_tool(
-            "analyze_with_ai",
-            {"pcap_path": pcap_path}
-        )
-        return result.content
+            result = await self.session.call_tool(
+                "analyze_with_ai",
+                {"pcap_path": pcap_path}
+            )
+            logger.info(f"MCP tool executed successfully, result type: {type(result)}")
+            return result.content
+        
+        except Exception as e:
+            logger.error(f"Error in analyze_pcap: {str(e)}", exc_info=True)
+            # ВАЖНО: нужно вернуть ошибку или перебросить исключение
+            return f"Error analyzing PCAP: {str(e)}"
 
 # Глобальный клиент MCP
 mcp_client = MCPClient()
@@ -82,6 +91,7 @@ async def analyze_pcap(file: UploadFile = File(...)):
     try:
         # Анализируем через MCP сервер
         logger.info(f"Analyzing PCAP file: {file.filename}")
+        logger.info(f"pcap path: {pcap_path}")
         analysis_result = await mcp_client.analyze_pcap(pcap_path)
         
         return {
@@ -91,7 +101,7 @@ async def analyze_pcap(file: UploadFile = File(...)):
         }
     except Exception as e:
         logger.error(f"Analysis error: {e}")
-        raise HTTPException(500, f"Analysis failed: {str(e)}")
+        raise HTTPException(500, f"Analysis failed: {e}")
     finally:
         # Удаляем временный файл
         try:
