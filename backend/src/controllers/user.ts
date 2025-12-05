@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { generateTokens, SALT_SIZE } from 'utils';
 import User from '../models/user';
 import ms from 'ms';
-import { HttpStatuses } from 'types';
+import { HttpStatuses, RequestWithId, UserLoginDto } from 'types';
 import bcrypt from 'bcrypt';
 import { REFRESH_TOKEN_EXPIRY } from 'config';
 
@@ -42,12 +42,12 @@ export const register = async (req: Request, res: Response) => {
   }
 };
 
-export const login = async (req: Request<{}, {}, UserLoginBodyDto>, res: Response) => {
+export const login = async (req: Request<null, null, UserLoginDto>, res: Response) => {
   try {
-    const { email, password } = req.body;
+    const { login, password } = req.body;
     const refreshTokenExpiry = REFRESH_TOKEN_EXPIRY;
 
-    const findedUser = await User.findUserByCredentials(email, password);
+    const findedUser = await User.findUserByCredentials(login, password);
 
     const { accessToken, refreshToken } = generateTokens(findedUser._id);
     findedUser.tokens.push(refreshToken);

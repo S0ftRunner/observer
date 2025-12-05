@@ -1,5 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import ObserverLog from '../models/log';
+import fs from 'fs';
+import { ZEEK_URL } from 'config';
 
 export const createLog = async (req: Request, res: Response) => {
   try {
@@ -15,11 +17,31 @@ export const createLog = async (req: Request, res: Response) => {
 };
 
 export const analizeLog = async (req: Request, res: Response, next: NextFunction) => {
-  // 1) Отправляем данные на сервис с python
-  // 2) получаем ответ и парсим его
-  // 3) передаем его в createLog
   try {
     const file = req.file;
+    if (!file) {
+      return res.status(400).send({ message: 'Файл не был загружен' });
+    }
+
+    // подготавливаем formData для python сервера
+    const formData = new FormData();
+    const fileStream = fs.createReadStream(file.path);
+
+    // для node.js используется другой подход
+    const fileBuffer = fs.readFileSync(file.path);
+    formData.append('file', new Blob([fileBuffer]), file.originalname);
+
+    // отправляем запрос на сервер python
+
+    const response = await fetch(`${ZEEK_URL}/analyze-pcap`, {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
+
+    const result = await response.json();
   }
 };
 
