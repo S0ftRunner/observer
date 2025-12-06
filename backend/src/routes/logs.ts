@@ -1,3 +1,4 @@
+import { uploadPcap } from 'config/multer';
 import { analizeLog, createLog, deleteLogById, getAllLogs, getLogById, updateLogById } from 'controllers';
 import { Router } from 'express';
 
@@ -10,7 +11,7 @@ router.get('/:id', getLogById);
 router.get('/', getAllLogs);
 
 // вызываем питоновский сервис для анализа лога
-router.post('/analize', analizeLog);
+router.post('/analize', uploadPcap, analizeLog);
 
 // обновление лога (если оператор захочет внести свои заметки)
 router.patch('/:id/log', updateLogById);

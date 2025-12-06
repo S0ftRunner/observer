@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import { TLogFile } from 'types';
 
-interface ILog {
+export interface ILog {
   title: string;
   logFiles?: TLogFile[];
   analizedDescription: string;
