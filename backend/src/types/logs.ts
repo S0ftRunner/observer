@@ -12,5 +12,5 @@ export type ZeekAnalyz = {
 export type ZeekAnalyseResponse = {
   status: string;
   filename: string;
-  analysiz: ZeekAnalyz[];
+  analysis: ZeekAnalyz[];
 };

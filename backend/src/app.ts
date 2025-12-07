@@ -1,9 +1,13 @@
 import express from 'express';
 import cors from 'cors';
 import path from 'path';
+import logRouter from './routes/logs';
+import { connnectToMongo } from './config';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+connnectToMongo();
 
 // отключаем корс
 app.use(
@@ -22,6 +26,8 @@ app.use(express.json());
 
 // для корректной кодировки
 app.use(express.urlencoded({ extended: true }));
+
+app.use('/logs', logRouter);
 
 app.listen(PORT, () => {
   console.log(`Сервер поднят на порту: ${PORT}`);

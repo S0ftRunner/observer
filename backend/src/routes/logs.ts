@@ -1,5 +1,5 @@
-import { uploadPcap } from 'config/multer';
-import { analizeLog, createLog, deleteLogById, getAllLogs, getLogById, updateLogById } from 'controllers';
+import { uploadPcap } from '../config/multer';
+import { analizeLog, createLog, deleteLogById, getAllLogs, getLogById, updateLogById } from '../controllers';
 import { Router } from 'express';
 
 const router = Router();

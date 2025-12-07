@@ -1,9 +1,8 @@
-import { NextFunction, Request, Response } from 'express';
+import { Request, Response } from 'express';
 import ObserverLog, { ILog } from '../models/log';
 import fs from 'fs';
-import { ZEEK_URL } from 'config';
-import { HttpStatuses, ZeekAnalyseResponse } from 'types';
-import mongoose, { Mongoose } from 'mongoose';
+import { ZEEK_URL } from '../config';
+import { HttpStatuses, ZeekAnalyseResponse } from '../types';
 
 export const createLog = async (req: Request, res: Response) => {
   try {
@@ -27,7 +26,6 @@ export const analizeLog = async (req: Request, res: Response) => {
 
     // подготавливаем formData для python сервера
     const formData = new FormData();
-    fs.createReadStream(file.path);
 
     // для node.js используется другой подход
     const fileBuffer = fs.readFileSync(file.path);
@@ -35,19 +33,19 @@ export const analizeLog = async (req: Request, res: Response) => {
 
     // отправляем запрос на сервер python
 
+    console.log(ZEEK_URL);
     const response = await fetch(`${ZEEK_URL}/analyze-pcap`, {
       method: 'POST',
       body: formData,
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
     });
+
+    console.log(response);
 
     const result = (await response.json()) as ZeekAnalyseResponse;
 
     const logData: ILog = {
       title: result.filename,
-      analizedDescription: result.analysiz[0].text,
+      analizedDescription: result.analysis[0].text,
     };
 
     const createdLog = await saveLogToDatabase(logData);
@@ -64,7 +62,7 @@ export const analizeLog = async (req: Request, res: Response) => {
       },
     });
   } catch (error) {
-    console.error('PCAP analysis error');
+    console.error(`PCAP analysis error: ${error}`);
 
     if (error instanceof Error && error.message.includes('Only .pcap')) {
       return res.status(HttpStatuses.BadRequest).send({ message: 'Файл должен быть формата .pcap или .pcapng' });
@@ -78,7 +76,25 @@ export const analizeLog = async (req: Request, res: Response) => {
   }
 };
 
-export const getLogById = async (id: string) => {};
+export const getLogById = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    const findedLog = await ObserverLog.findById(id);
+
+    return res.status(HttpStatuses.Success).send(findedLog);
+  } catch (error) {
+    console.error(error);
+
+    if (error instanceof Error) {
+      return res
+        .status(HttpStatuses.InternalServerError)
+        .send({ message: `Произошла ошибка на сервере: ${error.message}` });
+    }
+
+    return res.status(HttpStatuses.InternalServerError).send({ message: 'Произошла неизвестная ошибка на сервере' });
+  }
+};
 
 export const getAllLogs = async (_req: Request, res: Response) => {
   try {
@@ -98,14 +114,24 @@ export const updateLogById = async (req: Request, res: Response) => {
   }
 };
 
-export const deleteLogById = async (id: string) => {};
+export const deleteLogById = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    const deletedLog = await ObserverLog.findByIdAndDelete(id);
+
+    return res.status(HttpStatuses.Success).send(deletedLog);
+  } catch (error) {
+    if (error instanceof Error) {
+      return res.status(HttpStatuses.NotFound).send({ message: `Лога с таким id не существует` });
+    }
+
+    return res.status(HttpStatuses.InternalServerError).send({ message: 'Произошла ошибка на сервере' });
+  }
+};
 
 const saveLogToDatabase = async (log: ILog) => {
-  try {
-    const createdLog = await ObserverLog.create(log);
+  const createdLog = await ObserverLog.create(log);
 
-    return createdLog;
-  } catch (error) {
-    throw error;
-  }
+  return createdLog;
 };
