@@ -22,7 +22,7 @@ export const router = createBrowserRouter([
       },
     ],
   },
-  {
+    {
   path: "/logs",
   element: <div>logs</div>,
   children: [

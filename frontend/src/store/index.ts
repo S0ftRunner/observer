@@ -1,2 +1,2 @@
-export * from './logs';
+export * from './observerLogs';
 export * from './users';

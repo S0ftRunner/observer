@@ -19,7 +19,6 @@ export const MainAppWrapper = () => {
     <ErrorBoundary>
       <SnackbarProvider anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}>
         <ThemeProvider>
-          {/* Сюда подключить стор + тему? */}
           <AppContent />
         </ ThemeProvider>
       </SnackbarProvider>
