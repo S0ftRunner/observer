@@ -7,10 +7,6 @@ export const ROUTES: Array<Route> = [
   },
   {
     url: RouteEnum.Logs,
-    text: 'История логов'
+    text: 'Анализ логов'
   },
-  {
-    url: RouteEnum.DownloadLogs,
-    text: 'Загрузить лог'
-  }
 ] 

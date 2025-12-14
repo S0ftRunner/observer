@@ -8,8 +8,9 @@ import { TLog } from "@/api";
 export interface IUseLogs {
   logs: TLog[];
   setLogs: () => void;
-  getLogById: (id: string) => TLog;
+  getLog: (id: string) => TLog;
   deleteLog: (id: string) => void;
   createLog: (data: unknown) => void; // подумать над типом данных
+  getLogs: () => void;
 };
 

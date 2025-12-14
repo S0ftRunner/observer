@@ -1,6 +1,6 @@
 
 import App from "@/App";
-import { MainPage } from "@/pages";
+import { LogsStory, MainPage } from "@/pages";
 import { createBrowserRouter } from "react-router";
 
 export const router = createBrowserRouter([
@@ -24,7 +24,7 @@ export const router = createBrowserRouter([
   },
     {
   path: "/logs",
-  element: <div>logs</div>,
+  element: <LogsStory />,
   children: [
     {
       path: ":id",

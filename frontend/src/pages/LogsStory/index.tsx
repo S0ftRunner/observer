@@ -1,3 +1,6 @@
 export const LogsStory = () => {
-  return <div>test</div>;
+  const { logs } = useLogs
+  return (
+
+  );
 }
