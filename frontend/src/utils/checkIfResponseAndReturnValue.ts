@@ -1,4 +1,4 @@
-export const checkResponseAndReturnData = async (response: Response) => {
+export const checkResponseAndReturnData = async (response: Response): Promise<any> => {
   if (response.ok) {
     return await response.json();
   };

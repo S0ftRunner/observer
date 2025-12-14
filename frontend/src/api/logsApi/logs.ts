@@ -8,16 +8,59 @@ export const analizeLog = async (logData: any) => {
     method: "POST",
     body: JSON.stringify(logData),
   });
-  const data = checkResponseAndReturnData(response);
+  const data = await checkResponseAndReturnData(response);
 
   return data;
 };
 
-
 export const getLogById = async (id: string) => {
   const response = await fetch(`${BACKEND_URL}/${LOGS_URL}/${id}`);
-  
-  const data = checkResponseAndReturnData(response);
+
+  const data = await checkResponseAndReturnData(response);
 
   return data;
-}
+};
+
+export const getAllLogs = async () => {
+  const response = await fetch(`${BACKEND_URL}/`);
+
+  const data = await checkResponseAndReturnData(response);
+
+  return data;
+};
+
+export const deleteLogById = async (id: string) => {
+  const response = await fetch(`${BACKEND_URL}/${id}/delete`);
+
+  const data = await checkResponseAndReturnData(response);
+
+  return data;
+};
+
+export const updateLogById = async (id: string, bodyData: any) => {
+  const response = await fetch(`${BACKEND_URL}/${id}/log`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: bodyData,
+  });
+
+  const data = await checkResponseAndReturnData(response);
+
+  return data;
+};
+
+export const createLog = async (bodyData: any) => {
+  const response = await fetch(`${BACKEND_URL}/`, {
+    method: "POST",
+    body: bodyData,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  const data = await checkResponseAndReturnData(response);
+
+  return data;
+};
