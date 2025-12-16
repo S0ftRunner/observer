@@ -6,9 +6,9 @@ import { TLog } from "@/api";
  * Удалить лог
  */
 export interface IUseLogs {
-  logs: TLog[];
-  setLogs: () => void;
-  getLog: (id: string) => TLog;
+  logs: any;
+  setLogs: (logs: TLog[]) => void;
+  getLog: (id: string) => Promise<TLog>;
   deleteLog: (id: string) => void;
   createLog: (data: unknown) => void; // подумать над типом данных
   getLogs: () => void;

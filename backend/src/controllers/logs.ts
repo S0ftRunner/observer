@@ -98,7 +98,7 @@ export const getLogById = async (req: Request, res: Response) => {
 
 export const getAllLogs = async (_req: Request, res: Response) => {
   try {
-    const findedLogs = ObserverLog.find();
+    const findedLogs = await ObserverLog.find();
     return res.status(HttpStatuses.Success).send({ items: findedLogs });
   } catch (err) {
     return res.status(HttpStatuses.NotFound).send({ message: 'Логов нет', err });

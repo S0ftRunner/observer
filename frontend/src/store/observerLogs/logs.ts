@@ -1,20 +1,25 @@
-import { create } from 'zustand';
-import { IUseLogs } from './types';
-import { deleteLogById, getAllLogs, getLogById, TLog } from '@/api';
+import { create } from "zustand";
+import { IUseLogs } from "./types";
+import { deleteLogById, getAllLogs, getLogById, TLog } from "@/api";
 
-const useLogs = create<IUseLogs>((set, get) => ({
+export const useLogs = create<IUseLogs>((set) => ({
   logs: [],
   getLogs: async () => {
     const data = await getAllLogs();
-    set({logs: data});
+    set({ logs: data });
   },
-  setLogs: () => {},
+  setLogs: (logs: TLog[]) => {
+    set({ logs });
+  },
   getLog: async (id: string) => {
-    const data = await getLogById(id) as TLog;
+    const data = (await getLogById(id)) as TLog;
 
     return data;
   },
   deleteLog: async (id: string) => {
-    const data = await deleteLogById()
-  }
-}))
+    const data = await deleteLogById(id);
+
+    return data;
+  },
+  createLog: () => {},
+}));

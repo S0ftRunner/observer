@@ -22,7 +22,7 @@ export const getLogById = async (id: string) => {
 };
 
 export const getAllLogs = async () => {
-  const response = await fetch(`${BACKEND_URL}/`);
+  const response = await fetch(`${BACKEND_URL}/${LOGS_URL}`);
 
   const data = await checkResponseAndReturnData(response);
 

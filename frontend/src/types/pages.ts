@@ -3,7 +3,8 @@ import { Role } from "./role";
 export enum RouteEnum {
   Main = '/main',
   Logs = '/logs',
-  DownloadLogs = '/download-logs'
+  DownloadLogs = '/download-logs',
+  LogDetails = '/logs/:id'
 };
 
 export type Route = {
