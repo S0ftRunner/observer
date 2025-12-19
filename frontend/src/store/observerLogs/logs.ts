@@ -3,12 +3,14 @@ import { IUseLogs } from "./types";
 import { deleteLogById, getAllLogs, getLogById, TLog } from "@/api";
 
 export const useLogs = create<IUseLogs>((set) => ({
-  logs: [],
+  logs: { items: [] },
   getLogs: async () => {
     const data = await getAllLogs();
+
+    console.log(data);
     set({ logs: data });
   },
-  setLogs: (logs: TLog[]) => {
+  setLogs: (logs: any) => {
     set({ logs });
   },
   getLog: async (id: string) => {

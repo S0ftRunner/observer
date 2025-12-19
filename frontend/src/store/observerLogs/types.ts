@@ -11,6 +11,6 @@ export interface IUseLogs {
   getLog: (id: string) => Promise<TLog>;
   deleteLog: (id: string) => void;
   createLog: (data: unknown) => void; // подумать над типом данных
-  getLogs: () => void;
+  getLogs: () => Promise<any>;
 };
 
