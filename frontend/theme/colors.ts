@@ -1,0 +1,21 @@
+import { ColorsTheme } from './types';
+
+export const COLORS_LIGHT_THEME: ColorsTheme = {
+  MAIN: '#FF708C',
+  MAIN_HOVER: '#B24E62',
+  SECONDARY: '#FFFFFF',
+  TEXT_MAIN: '#2C2D2E',
+  TEXT_SECONDARY: '#B3B3B3',
+  ICON_MAIN: '#2C2D2E',
+  ICON_SECONDARY: '#2C2D2E',
+};
+
+export const COLORS_DARK_THEME: ColorsTheme = {
+  MAIN: '#6A9CFD',
+  MAIN_HOVER: '#4A6DB1',
+  SECONDARY: '#282B32',
+  TEXT_MAIN: '#e6e7e8',
+  TEXT_SECONDARY: '#A1A1A1',
+  ICON_MAIN: '#2C2D2E',
+  ICON_SECONDARY: '#C0C0C0',
+};

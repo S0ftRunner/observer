@@ -1,0 +1,9 @@
+pandas>=1.0
+mcp
+gigachat
+requests
+python-dotenv
+fastapi
+uvicorn
+aiofiles
+aiohttp
