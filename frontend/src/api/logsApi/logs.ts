@@ -13,6 +13,19 @@ export const analizeLog = async (logData: any) => {
   return data;
 };
 
+export const uploadPcapAndAnalyze = async (file: File) => {
+  const formData = new FormData();
+  formData.append("pcapFile", file);
+
+  const response = await fetch(`${BACKEND_URL}/${LOGS_URL}/analize`, {
+    method: "POST",
+    body: formData,
+  });
+
+  const data = await checkResponseAndReturnData(response);
+  return data;
+};
+
 export const getLogById = async (id: string) => {
   const response = await fetch(`${BACKEND_URL}/${LOGS_URL}/${id}`);
 
